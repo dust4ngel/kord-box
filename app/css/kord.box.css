@@ -4,8 +4,7 @@ body {
 }
 
 .flex-grid {
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;  
+	display: flex; 
 	position: fixed;
 	top: 49px;  /* nav-bar height */
 	right: 4px;
@@ -14,29 +13,29 @@ body {
 }
 
 .flex-grid > div {
-	display: -webkit-box;
-	-webkit-box-flex: 1;
-	-webkit-box-orient: vertical;
+	display: flex;
+	flex: 1 100%;
+	flex-direction: column;
 }
 
 .flex-grid > div > chord {
-	display: -webkit-box;
-	-webkit-box-flex: 1;
-	-webkit-box-orient: vertical;
+	display: flex;
+	flex: 1 100%;
+	flex-direction: column;
 	padding: 4px 0;
 	border: 2px solid transparent;
 }
 
 .flex-grid > div > chord > div {
-	-webkit-box-flex: 1;
+	flex-grow: 1;
+	display: flex;
+	flex: 1 100%;
+  
 	position: relative;
 	text-align: center;
 	padding: 8px;
 	
 	align-items: center;
-	-webkit-box-pack: center;
-	display: flex;
-	-webkit-box-align: center;
 	justify-content: center;
 }
 
@@ -48,17 +47,11 @@ body {
 	bottom: 6px;
 	
 	align-items: center;
-	-webkit-box-pack: center;
 	display: flex;
-	-webkit-box-align: center;
 	justify-content: flex-end;
 }
 
 .flex-grid > div > chord > div:last-child .btn { justify-content: center; }
-
-.flex-grid > div > chord > div:first-child, .flex-grid > div > chord > div:last-child {
-	-webkit-box-flex: 1;
-}
 
 .key { font-weight: 800; font-size: 1.3em; }
 
