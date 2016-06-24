@@ -25,8 +25,12 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			osc.type = 'sawtooth';
 			osc.detune.value = Math.round(Math.random() * -10);
 			
+			// head's up: at this point in time, safari doesn't support
+			// createStereoPanner, and supports createBiquadFilter only
+			// with a webkit prefix.
+			
 			// osc 1 hard left
-			var pan1 = context.createStereoPanner();
+			var pan1 = context.createStereoPanner ? context.createStereoPanner() : context.createPanner();
 			pan1.pan.value = -1;
 
 			var osc2 = context.createOscillator();
@@ -35,7 +39,7 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			osc2.detune.value = Math.round(Math.random() * 10);
 			
 			// osc 2 hard right
-			var pan2 = context.createStereoPanner();
+			var pan2 = context.createStereoPanner ? context.createStereoPanner() : context.createPanner();
 			pan2.pan.value = 1;
 
 			var now = context.currentTime;
