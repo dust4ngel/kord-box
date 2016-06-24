@@ -3,6 +3,8 @@ angular.module('kordbox').factory('midiAdapter', ['synthMidiAdapter', function(s
 }]);
 
 angular.module('kordbox').factory('synthMidiAdapter', function() {
+	var AudioContext = window.AudioContext || window.webkitAudioContext; // safari kludge
+	
 	var context = context || new AudioContext();
 	
 	var masterVolume = context.createGain();
@@ -102,6 +104,8 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			return { release : function() { instance.release(); } }
 		}
 	};
+	
+	return {};
 });
 
 // got midi data? serialize into a midi file.  this is mad ghetto (but effective!)
