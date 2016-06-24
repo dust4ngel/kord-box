@@ -1,0 +1,19 @@
+<div ng-init="index = $parent.$index">
+	<div class="btn" title="Toggle key"
+		ng-click="nextScale()">
+		{{ scales[chord.scale].label }}
+	</div>
+</div>
+<div ng-repeat="cell in chord.degrees" ng-class="{ 'extended' : cell.extended }">
+	<div class="btn" ng-class="{ 'active' : cell.isActive }"
+		ng-mousedown="toggle($index)" ng-mouseup="stop()">
+		<span ng-class="{ 'key' : cell.label == key }">
+			{{ cell.label }}
+		</span>
+	</div>
+</div>
+<div>
+	<div class="btn" ng-mousedown="play()" ng-mouseup="stop()" title="Play this chord" ng-class="{ 'active' : chord.isActive }">
+		<i class="fa fa-play"></i>
+	</div>
+</div>

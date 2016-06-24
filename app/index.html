@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<title>kord.box</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="http://bootswatch.com/cyborg/bootstrap.css" rel="stylesheet">
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+		<link href="css/kord.box.css" rel="stylesheet">
+
+		<script src="sass.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+	</head>
+
+	<body ng-app="kordbox" ng-controller="MpcCtrl">
+	<canvas id="osc" width="1600px" height="1200px"></canvas>
+	
+	<div class="navbar navbar-default navbar-fixed-top no-select" role="navigation" style="height: 41px; overflow: hidden;">
+		<div class="container-fluid">
+			<div class="row">
+				<span class="col-sm-5 col-xs-7">
+					<span class="navbar-brand" style="font-weight: bold;">
+						<span class="phade">█</span> kord.box
+					</span>
+				</span>
+				<div class="col-sm-7 hidden-xs">
+					<ul class="list-inline pull-right" style="position: relative; top: 8px;">
+						<li>
+							<div role="group">
+								<div class="btn btn-sm" style="">key</div>
+								<select class="form-control input-sm" style="display: inline-block; width: 60px; position: relative; top: 2px;" ng-model="key" ng-options="k for k in keys"></select>
+								<button type="button" class="btn btn-default btn-sm" ng-click="nextOctaveOffset()"><i class="fa" ng-class="{ 'fa-square' : octaveOffset == 0, 'fa-plus-square' : octaveOffset == 1, 'fa-minus-square' : octaveOffset == -1 }"></i> octave</button>
+								<button type="button" class="btn btn-default btn-sm" ng-click="clear()"><i class="fa fa-times"></i> clear</button>
+								<button type="button" class="btn btn-default btn-sm" ng-click="getMidiUri()"><i class="fa fa-file"></i> midi</button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<div id="mpc" class="flex-grid">
+					<div ng-repeat="chord in chords track by $index" ng-class="{ 'hidden-xs' : $index > 3, 'hidden-sm' : $index > 5, 'active' : chords[$index].isActive, 'inactive' : !chords[$index].isActive }">
+						<chord chord="chord" key="key" offset="octaveOffset"></chord>
+					</div>
+				</div>
+			</div>
+		</div>  
+	</div><!-- /.container -->
+    
+    <script src="js/midi.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/midi-adapter.js"></script>
+    <script src="js/osc-viz.js"></script>
+	
+	<!--style type="text/sass" id="sass">
+	
+	@mixin column($class, $hue) {
+		> div.#{$class} {
+			color: hsla($hue, 100%, 70%, 1);
+			
+			> chord {
+			
+				> div > div {
+					background: linear-gradient(rgba(80, 80, 80, .5), rgba(50, 50, 50, .5));
+					box-shadow: 0 4px 0px rgba(0, 0, 0, .4);
+					font-size: 1.3em;
+					
+					&:hover {
+						background-color: hsla($hue, 100%, 12%, .6);
+					}
+					
+					&.active, &:active {
+						color: white;
+						text-shadow: 0 0 5px hsla($hue, 100%, 100%, 1);
+						background-color: hsla($hue, 100%, 60%, 1);
+						font-weight: bold;
+						
+						&:not(:active):hover {
+							background-color: hsla($hue, 100%, 60%, .8);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	#mpc { @include column('active', 30); }
+	
+	#mpc { @include column('inactive', 70); }
+	
+	.navbar-default { background: linear-gradient(#222222, #060606); }
+	
+	</style>
+  
+	<script>
+	var sass = new Sass();
+	sass.compile(document.getElementById("sass").innerText, function(result) {
+		var styleElt = document.createElement("style");
+		styleElt.innerHTML = result.text;
+		document.head.appendChild(styleElt);
+	});
+	</script-->
+	
+	<link rel="stylesheet" href="css/sass.compiled.css">
+  
+	</body>
+</html>

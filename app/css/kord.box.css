@@ -1,0 +1,160 @@
+body {
+	font-family: monospace;
+	overflow: hidden;
+}
+
+.flex-grid {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;  
+	position: fixed;
+	top: 49px;  /* nav-bar height */
+	right: 4px;
+	left: 4px;
+	bottom: 0px;
+}
+
+.flex-grid > div {
+	display: -webkit-box;
+	-webkit-box-flex: 1;
+	-webkit-box-orient: vertical;
+}
+
+.flex-grid > div > chord {
+	display: -webkit-box;
+	-webkit-box-flex: 1;
+	-webkit-box-orient: vertical;
+	padding: 4px 0;
+	border: 2px solid transparent;
+}
+
+.flex-grid > div > chord > div {
+	-webkit-box-flex: 1;
+	position: relative;
+	text-align: center;
+	padding: 8px;
+	
+	align-items: center;
+	-webkit-box-pack: center;
+	display: flex;
+	-webkit-box-align: center;
+	justify-content: center;
+}
+
+.flex-grid > div > chord > div .btn {
+	position: absolute;
+	left: 3px;
+	right: 3px;
+	top: 6px;
+	bottom: 6px;
+	
+	align-items: center;
+	-webkit-box-pack: center;
+	display: flex;
+	-webkit-box-align: center;
+	justify-content: flex-end;
+}
+
+.flex-grid > div > chord > div:last-child .btn { justify-content: center; }
+
+.flex-grid > div > chord > div:first-child, .flex-grid > div > chord > div:last-child {
+	-webkit-box-flex: 1;
+}
+
+.key { font-weight: 800; font-size: 1.3em; }
+
+.no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media (max-width: 767px) {
+	.extended {
+		display: none !important;
+	}
+}
+
+.btn.disabled { pointer-events: all; cursor: pointer; }
+
+.navbar-brand { letter-spacing: .1em; }
+
+.btn:focus, .btn:active:focus, .form-control:focus { outline: none; }
+
+/* fade */
+
+.phade {
+	animation: fade 1s forwards;
+	-webkit-animation: fade 1s forwards;
+	-moz-animation: fade 1s forwards;
+	-o-animation: fade 1s forwards;
+	animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+	-moz-animation-iteration-count: infinite;  
+	-o-animation-iteration-count: infinite;
+}
+
+@keyframes fade {
+	0%   {opacity:0;}
+	50%   {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-webkit-keyframes fade {
+	0%   {opacity:0;}
+	50%   {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-moz-keyframes fade {
+	0%   {opacity:0;}
+	50%   {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-o-keyframes fade {
+	0%   {opacity:0;}
+	50%   {opacity:1;}
+	100% {opacity:0;}
+}
+
+/* das oscillator */
+
+canvas {
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	z-index: -1;
+	background-color: rbga(255,255,255,0);
+}
+
+/* scroll */
+
+.navbar::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0; bottom: -215px; left: 0; right: 0;
+	background: url(../img/code.png) 0 0 repeat-y;
+	opacity: .15;
+	z-index: -1;
+	
+	/* http://stackoverflow.com/a/21088405 */
+	-webkit-animation-name: MOVE-BG;
+	-webkit-animation-duration: 30s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes MOVE-BG {
+	from {
+		-webkit-transform: translateY(0);
+	}
+	to { 
+		-webkit-transform: translateY(-215px);
+	}
+}
