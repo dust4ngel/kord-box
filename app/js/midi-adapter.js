@@ -1,10 +1,44 @@
-angular.module('kordbox').factory('midiAdapter', ['synthMidiAdapter', function(synthMidiAdapter) {
-	return synthMidiAdapter;
+angular.module('kordbox').factory('midiAdapter', ['synthAdapter', function(synthAdapter) {
+	var Chord = (function() {
+		function midiToFreq(n) {
+			// see : http://osdir.com/ml/audio.emagic.logic.off-topic/2000-09/msg00012.html
+			return 440 * Math.pow(2, (n - 69) / 12 );
+		}
+
+		function Chord(midis, synth) {
+			this.voices = [];
+			for( var i=0; i < midis.length; i++ ) {
+				this.voices.push(
+					synth.startNew(midiToFreq(midis[i]))
+				);
+			}
+
+			this.release = function() {
+				this.voices.forEach(function(v) { v.stop(); });
+			};
+		}
+
+		return Chord;
+	})();
+	
+	var synth = new synthAdapter();
+	
+	return {
+		trigger : function(midis) {
+			var instance = new Chord(midis, synth);
+			return { release : function() { instance.release(); } }
+		}
+	};
 }]);
 
-angular.module('kordbox').factory('synthMidiAdapter', function() {
-	var AudioContext = window.AudioContext || window.webkitAudioContext; // safari kludge
-	
+angular.module('kordbox').factory('synthAdapter', ['webaudioSynth', 'webkitSynth', function(webaudioSynth, webkitSynth) {
+	if(window.AudioContext)
+		return webaudioSynth;
+	else
+		return webkitSynth;
+}]);
+
+angular.module('kordbox').factory('webaudioSynth', [function() {
 	var context = context || new AudioContext();
 	
 	var masterVolume = context.createGain();
@@ -14,9 +48,9 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 	var oscilloscope = new OscilloscopeVisualizer(context, document.getElementById('osc'));
 	masterVolume.connect(oscilloscope.input);
 	
-	function Synth(context)
+	function Synth()
 	{
-		this.startNew = function(frequency, destination)
+		this.startNew = function(frequency)
 		{
 			// variable-detuned stereo multi-waveform subtractive patch
 			
@@ -25,12 +59,8 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			osc.type = 'sawtooth';
 			osc.detune.value = Math.round(Math.random() * -10);
 			
-			// head's up: at this point in time, safari doesn't support
-			// createStereoPanner, and supports createBiquadFilter only
-			// with a webkit prefix.
-			
 			// osc 1 hard left
-			var pan1 = context.createStereoPanner ? context.createStereoPanner() : context.createPanner();
+			var pan1 = context.createStereoPanner();
 			pan1.pan.value = -1;
 
 			var osc2 = context.createOscillator();
@@ -39,7 +69,7 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			osc2.detune.value = Math.round(Math.random() * 10);
 			
 			// osc 2 hard right
-			var pan2 = context.createStereoPanner ? context.createStereoPanner() : context.createPanner();
+			var pan2 = context.createStereoPanner();
 			pan2.pan.value = 1;
 
 			var now = context.currentTime;
@@ -63,7 +93,7 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 			pan2.connect(filter);
 			filter.connect(gain);
 
-			gain.connect(destination);
+			gain.connect(masterVolume);
 
 			// ich tanze!
 			osc.start(context.currentTime);
@@ -78,39 +108,49 @@ angular.module('kordbox').factory('synthMidiAdapter', function() {
 		}
 	}
 	
-	var synth = new Synth(context);
+	return Synth;
+}]);
+
+angular.module('kordbox').factory('webkitSynth', [function() {
+	var context = new webkitAudioContext();
 	
-	var Chord = (function(context) {  
-		function midiToFreq(n) {
-			// see : http://osdir.com/ml/audio.emagic.logic.off-topic/2000-09/msg00012.html
-			return 440 * Math.pow(2, (n - 69) / 12 );
-		}
+	var masterVolume = context.createGain();
+	masterVolume.gain.value = 0.25;
+	masterVolume.connect(context.destination);
+	
+	function Synth()
+	{
+		this.startNew = function(frequency)
+		{
+			// super ghetto webkit version
+			
+			var osc = context.createOscillator();
+			osc.frequency.value = frequency;
+			osc.type = 'triangle';
 
-		function Chord(midis) {
-			this.voices = [];
-			for( var i=0; i < midis.length; i++ ) {
-				this.voices.push(
-					synth.startNew(midiToFreq(midis[i]), masterVolume)
-				);
-			}
+			var now = context.currentTime;
 
-			this.release = function() {
-				this.voices.forEach(function(v) { v.stop(); });
+			// gain envelope
+			var gain = context.createGain();
+			gain.gain.setValueAtTime(.8, now);
+			gain.gain.exponentialRampToValueAtTime(0.0001, now + 4);
+
+			osc.connect(gain);
+			
+			gain.connect(masterVolume);
+
+			osc.start(context.currentTime);
+			
+			return {
+				stop : function() {
+					osc.stop(context.currentTime);
+				}
 			};
 		}
-
-		return Chord;
-	})(context);
+	}
 	
-	return {
-		trigger : function(midis) {
-			var instance = new Chord(midis);
-			return { release : function() { instance.release(); } }
-		}
-	};
-	
-	return {};
-});
+	return Synth;
+}]);
 
 // got midi data? serialize into a midi file.  this is mad ghetto (but effective!)
 angular.module('kordbox').factory('MidiFormatter', function() {
