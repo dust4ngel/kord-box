@@ -32,23 +32,15 @@ angular.module('kordbox').factory('midiAdapter', ['synthAdapter', function(synth
 }]);
 
 angular.module('kordbox').factory('synthAdapter', ['webaudioSynth', 'webkitSynth', function(webaudioSynth, webkitSynth) {
-	if(window.AudioContext)
+	if(window.AudioContext) {
 		return webaudioSynth;
-	else
+	} else {
 		return webkitSynth;
+	}
 }]);
 
 angular.module('kordbox').factory('webaudioSynth', [function() {
-	var context = context || new AudioContext();
-	
-	var masterVolume = context.createGain();
-	masterVolume.gain.value = 0.25;
-	masterVolume.connect(context.destination);
-	
-	var oscilloscope = new OscilloscopeVisualizer(context, document.getElementById('osc'));
-	masterVolume.connect(oscilloscope.input);
-	
-	function Synth()
+	function Synth(context, masterVolume)
 	{
 		this.startNew = function(frequency)
 		{
@@ -108,17 +100,22 @@ angular.module('kordbox').factory('webaudioSynth', [function() {
 		}
 	}
 	
-	return Synth;
+	return function() {
+		var context = new AudioContext();
+	
+		var masterVolume = context.createGain();
+		masterVolume.gain.value = 0.25;
+		masterVolume.connect(context.destination);
+		
+		var oscilloscope = new OscilloscopeVisualizer(context, document.getElementById('osc'));
+		masterVolume.connect(oscilloscope.input);
+	
+		return new Synth(context, masterVolume);
+	};
 }]);
 
 angular.module('kordbox').factory('webkitSynth', [function() {
-	var context = new webkitAudioContext();
-	
-	var masterVolume = context.createGain();
-	masterVolume.gain.value = 0.25;
-	masterVolume.connect(context.destination);
-	
-	function Synth()
+	function Synth(context, masterVolume)
 	{
 		this.startNew = function(frequency)
 		{
@@ -149,7 +146,15 @@ angular.module('kordbox').factory('webkitSynth', [function() {
 		}
 	}
 	
-	return Synth;
+	return function() {
+		var context = new webkitAudioContext();
+	
+		var masterVolume = context.createGain();
+		masterVolume.gain.value = 0.25;
+		masterVolume.connect(context.destination);
+		
+		return new Synth(context, masterVolume);
+	};
 }]);
 
 // got midi data? serialize into a midi file.  this is mad ghetto (but effective!)
