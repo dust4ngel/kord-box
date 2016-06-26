@@ -119,28 +119,53 @@ angular.module('kordbox').factory('webkitSynth', [function() {
 	{
 		this.startNew = function(frequency)
 		{
-			// super ghetto webkit version
+			// moderately ghetto webkit version
 			
 			var osc = context.createOscillator();
 			osc.frequency.value = frequency;
-			osc.type = 'triangle';
+			osc.type = 'sawtooth';
+			osc.detune.value = Math.round(Math.random() * -10);
 
+			var osc2 = context.createOscillator();
+			osc2.frequency.value = frequency;
+			osc2.type = 'sawtooth';
+			osc2.detune.value = Math.round(Math.random() * 10);
+			
 			var now = context.currentTime;
 
 			// gain envelope
 			var gain = context.createGain();
 			gain.gain.setValueAtTime(.8, now);
 			gain.gain.exponentialRampToValueAtTime(0.0001, now + 4);
-
-			osc.connect(gain);
 			
+			// LP envelope
+			var filter = context.createBiquadFilter();
+			filter.type = 'lowpass';
+			filter.frequency.setValueAtTime(3675, now);
+			filter.frequency.exponentialRampToValueAtTime(600, now + .2);
+
+			var pan = context.createPanner();
+			pan.panningModel = 'equalpower';
+			pan.setPosition(-.5, 0, 0);
+			osc.connect(pan);
+			pan.connect(filter);
+
+			var pan2 = context.createPanner();
+			pan2.panningModel = 'equalpower';
+			pan2.setPosition(.5, 0, 0);
+			osc2.connect(pan2);
+			pan2.connect(filter);
+
+			filter.connect(gain);
 			gain.connect(masterVolume);
 
 			osc.start(context.currentTime);
+			osc2.start(context.currentTime);
 			
 			return {
 				stop : function() {
 					osc.stop(context.currentTime);
+					osc2.stop(context.currentTime);
 				}
 			};
 		}
