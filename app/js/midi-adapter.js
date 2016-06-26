@@ -178,6 +178,9 @@ angular.module('kordbox').factory('webkitSynth', [function() {
 		masterVolume.gain.value = 0.25;
 		masterVolume.connect(context.destination);
 		
+		var oscilloscope = new OscilloscopeVisualizer(context, document.getElementById('osc'));
+		masterVolume.connect(oscilloscope.input);
+		
 		return new Synth(context, masterVolume);
 	};
 }]);
