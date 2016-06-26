@@ -6,14 +6,17 @@
 </div>
 <div ng-repeat="cell in chord.degrees" ng-class="{ 'extended' : cell.extended }">
 	<div class="btn" ng-class="{ 'active' : cell.isActive }"
-		ng-mousedown="toggle($index)" ng-mouseup="stop()">
+		ng-mousedown="toggle($index)" ng-mouseup="stop()"
+		my-touchstart="toggle($index)" my-touchend="stop()">
 		<span ng-class="{ 'key' : cell.label == key }">
 			{{ cell.label }}
 		</span>
 	</div>
 </div>
 <div>
-	<div class="btn" ng-mousedown="play()" ng-mouseup="stop()" title="Play this chord" ng-class="{ 'active' : chord.isActive }">
+	<div class="btn" ng-class="{ 'active' : chord.isActive }"
+		ng-mousedown="play()" ng-mouseup="stop()"
+		my-touchstart="play()" my-touchend="stop()">
 		<i class="fa fa-play"></i>
 	</div>
 </div>

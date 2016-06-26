@@ -1,4 +1,21 @@
-angular.module('kordbox', []);
+angular.module('kordbox', [])
+	.directive('myTouchstart', [function() {
+		return function(scope, element, attr) {
+			element.on('touchstart', function(event) {
+				scope.$apply(function() { 
+					scope.$eval(attr.myTouchstart); 
+				});
+			});
+		};
+	}]).directive('myTouchend', [function() {
+		return function(scope, element, attr) {
+			element.on('touchend', function(event) {
+				scope.$apply(function() { 
+					scope.$eval(attr.myTouchend); 
+				});
+			});
+		};
+	}]);
 
 angular.module('kordbox').factory('pitchService', function() {
 	var midi = {
@@ -146,6 +163,8 @@ angular.module('kordbox').controller('MpcCtrl', function ($scope, $document, Mid
  
 	$scope.key = 'C';
 	$scope.keys = ['A♭', 'A', 'B♭', 'B', 'C', 'C♯', 'D♭', 'D', 'D♯', 'E♭', 'E', 'F', 'F♯', 'G♭', 'G', 'G♯'];
+	
+	$scope.ping = function() { console.log('ping'); }
 	
 	$scope.octaveOffset = 0;
 	$scope.nextOctaveOffset = function() {
