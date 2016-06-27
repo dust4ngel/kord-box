@@ -1,5 +1,5 @@
 body {
-	font-family: monospace;
+	font-family: 'Monaco', 'Menlo-Regular', monospace;
 	overflow: hidden;
 }
 
@@ -133,7 +133,7 @@ canvas {
 	position: absolute;
 	top: 0; bottom: -215px; left: 0; right: 0;
 	background: url(../img/code.png) 0 0 repeat-y;
-	opacity: .15;
+	opacity: .20;
 	z-index: -1;
 	
 	/* http://stackoverflow.com/a/21088405 */
