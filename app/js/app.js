@@ -116,6 +116,13 @@ angular.module('kordbox').directive('chord', function($document) {
 				}
 			}
 			
+			$scope.afterToggle = function(index) {
+				var cell = $scope.chord.degrees[index];
+				if(cell.isActive)	{
+					$scope.chord.event = $scope.chord.event.release();
+				}
+			}
+			
 			$scope.nextScale = function() {
 				$scope.chord.scale = ($scope.chord.scale + 1) % $scope.scales.length;
 				fillDegrees();
