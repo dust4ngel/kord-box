@@ -49,7 +49,7 @@ angular.module('kordbox').factory('webaudioSynth', [function() {
 			var osc = context.createOscillator();
 			osc.frequency.value = frequency;
 			osc.type = 'sawtooth';
-			osc.detune.value = Math.round(Math.random() * -10);
+			osc.detune.value = Math.round(Math.random() * -5);
 			
 			// osc 1 hard left
 			var pan1 = context.createStereoPanner();
@@ -58,7 +58,7 @@ angular.module('kordbox').factory('webaudioSynth', [function() {
 			var osc2 = context.createOscillator();
 			osc2.frequency.value = frequency;
 			osc2.type = 'sawtooth';
-			osc2.detune.value = Math.round(Math.random() * 10);
+			osc2.detune.value = Math.round(Math.random() * 5);
 			
 			// osc 2 hard right
 			var pan2 = context.createStereoPanner();
@@ -124,12 +124,12 @@ angular.module('kordbox').factory('webkitSynth', [function() {
 			var osc = context.createOscillator();
 			osc.frequency.value = frequency;
 			osc.type = 'sawtooth';
-			osc.detune.value = Math.round(Math.random() * -10);
+			osc.detune.value = Math.round(Math.random() * -5);
 
 			var osc2 = context.createOscillator();
 			osc2.frequency.value = frequency;
 			osc2.type = 'sawtooth';
-			osc2.detune.value = Math.round(Math.random() * 10);
+			osc2.detune.value = Math.round(Math.random() * 5);
 			
 			var now = context.currentTime;
 
