@@ -62,7 +62,7 @@ angular.module('kordbox').factory('pitchService', function() {
 	};
 });
 	
-angular.module('kordbox').directive('chord', function($document) {
+angular.module('kordbox').directive('chord', ['$timeout', function($timeout) {
 	return {
 		restrict: 'E',
 		templateUrl: 'templates/chord.html',
@@ -131,7 +131,7 @@ angular.module('kordbox').directive('chord', function($document) {
 			$scope.play = function() {
 				var instance = $scope.chord;
 				
-				if( instance.isActive ) return;
+				if(instance.isActive) return;
 						 
 				instance.isActive = true;
 				
@@ -145,7 +145,8 @@ angular.module('kordbox').directive('chord', function($document) {
 			$scope.stop = function() {
 				var instance = $scope.chord;
 				instance.event.release();
-				instance.isActive = false;
+				// ios touchend+mouseup in quick succession kludge - see http://stackoverflow.com/a/8505370
+				$timeout(function() { instance.isActive = false; }, 50);
 			}
 			
 			$scope.$watch('key', function() { fillDegrees(); });
@@ -162,7 +163,7 @@ angular.module('kordbox').directive('chord', function($document) {
 			scope.$on('stop:' + scope.index, function() { scope.stop(); scope.$apply(); });
 		}
 	};
-});
+}]);
 	
 angular.module('kordbox').controller('MpcCtrl', function ($scope, $document, MidiFormatter) {
 	var empty = [ {}, {}, {}, {}, {}, {}, {}, {} ];
