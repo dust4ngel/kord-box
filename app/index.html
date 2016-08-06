@@ -73,27 +73,27 @@
 	
 	@mixin column($class, $hue) {
 		> div.#{$class} {
-			color: hsla($hue, 100%, 70%, 1);
+			color: hsla($hue, 0%, 90%, 1);
 			
 			> chord {
 			
 				> div > div {
-					background: linear-gradient(rgba(100, 100, 100, .5), rgba(50, 50, 50, .5));
-					box-shadow: 0 4px 0px rgba(0, 0, 0, .4);
+					background-color: hsla($hue, 0%, 12%, .5);
+					border: 1px solid hsla($hue, 0%, 25%, .5);
 					font-size: 1.3em;
 					
 					&:hover {
-						background-color: hsla($hue, 100%, 12%, .6);
+						background-color: hsla($hue, 100%, 12%, .4);
 					}
 					
 					&.active, &:active {
 						color: white;
 						text-shadow: 0 0 5px hsla($hue, 100%, 100%, 1);
-						background-color: hsla($hue, 100%, 60%, 1);
+						background-color: hsla($hue, 100%, 60%, .5);
 						font-weight: bold;
 						
 						&:not(:active):hover {
-							background-color: hsla($hue, 100%, 60%, .8);
+							background-color: hsla($hue, 100%, 60%, .5);
 						}
 					}
 				}

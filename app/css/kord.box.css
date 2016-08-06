@@ -48,7 +48,7 @@ body {
 	
 	align-items: center;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 }
 
 .flex-grid > div > chord > div:last-child .btn { justify-content: center; }
@@ -133,7 +133,7 @@ canvas {
 	position: absolute;
 	top: 0; bottom: -215px; left: 0; right: 0;
 	background: url(../img/code.png) 0 0 repeat-y;
-	opacity: .20;
+	opacity: .35;
 	z-index: -1;
 	
 	/* http://stackoverflow.com/a/21088405 */

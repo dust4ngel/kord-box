@@ -1,51 +1,51 @@
 #mpc > div.active {
-	color: #ffb366;
+	color: #e6e6e6;
 }
 
 #mpc > div.active > chord > div > div {
-	background: linear-gradient(rgba(100, 100, 100, 0.5), rgba(50, 50, 50, 0.5));
-	box-shadow: 0 4px 0px rgba(0, 0, 0, 0.4);
+	background-color: rgba(31, 31, 31, 0.5);
+	border: 1px solid rgba(64, 64, 64, 0.5);
 	font-size: 1.3em;
 }
 
 #mpc > div.active > chord > div > div:hover {
-	background-color: rgba(61, 31, 0, 0.6);
+	background-color: rgba(61, 31, 0, 0.4);
 }
 
 #mpc > div.active > chord > div > div.active, #mpc > div.active > chord > div > div:active {
 	color: white;
 	text-shadow: 0 0 5px white;
-	background-color: #ff9933;
+	background-color: rgba(255, 153, 51, 0.5);
 	font-weight: bold;
 }
 
 #mpc > div.active > chord > div > div.active:not(:active):hover, #mpc > div.active > chord > div > div:active:not(:active):hover {
-		background-color: rgba(255, 153, 51, 0.8);
+		background-color: rgba(255, 153, 51, 0.5);
 }
 
 #mpc > div.inactive {
-	color: #e6ff66;
+	color: #e6e6e6;
 }
 
 #mpc > div.inactive > chord > div > div {
-	background: linear-gradient(rgba(100, 100, 100, 0.5), rgba(50, 50, 50, 0.5));
-	box-shadow: 0 4px 0px rgba(0, 0, 0, 0.4);
+	background-color: rgba(31, 31, 31, 0.5);
+	border: 1px solid rgba(64, 64, 64, 0.5);
 	font-size: 1.3em;
 }
 
 #mpc > div.inactive > chord > div > div:hover {
-	background-color: rgba(51, 61, 0, 0.6);
+	background-color: rgba(51, 61, 0, 0.4);
 }
 
 #mpc > div.inactive > chord > div > div.active, #mpc > div.inactive > chord > div > div:active {
 	color: white;
 	text-shadow: 0 0 5px white;
-	background-color: #ddff33;
+	background-color: rgba(221, 255, 51, 0.5);
 	font-weight: bold;
 }
 
 #mpc > div.inactive > chord > div > div.active:not(:active):hover, #mpc > div.inactive > chord > div > div:active:not(:active):hover {
-		background-color: rgba(221, 255, 51, 0.8);
+		background-color: rgba(221, 255, 51, 0.5);
 }
 
 .navbar-default {
