@@ -44,7 +44,7 @@ function OscilloscopeVisualizer(context, canvas) {
 					maxAmp
 				);
 			}
-			canvasCtx.strokeStyle = 'rgba(60, 60, 60, ' + Math.pow(maxAmp, .5) + ')';
+			canvasCtx.strokeStyle = 'rgba(80, 80, 80, ' + Math.pow(maxAmp, .5) + ')';
 			
 			for(var i = 0; i < bufferLength; i++)
 			{

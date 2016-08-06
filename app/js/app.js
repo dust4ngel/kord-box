@@ -7,7 +7,8 @@ angular.module('kordbox', [])
 				});
 			});
 		};
-	}]).directive('myTouchend', [function() {
+	}])
+	.directive('myTouchend', [function() {
 		return function(scope, element, attr) {
 			element.on('touchend', function(event) {
 				scope.$apply(function() { 
@@ -118,7 +119,7 @@ angular.module('kordbox').directive('chord', ['$timeout', function($timeout) {
 			
 			$scope.afterToggle = function(index) {
 				var cell = $scope.chord.degrees[index];
-				if(cell.isActive)	{
+				if(cell.isActive && $scope.chord.event)	{
 					$scope.chord.event = $scope.chord.event.release();
 				}
 			}
@@ -144,7 +145,8 @@ angular.module('kordbox').directive('chord', ['$timeout', function($timeout) {
 					
 			$scope.stop = function() {
 				var instance = $scope.chord;
-				instance.event.release();
+				if(instance.event)
+					instance.event.release();
 				// ios touchend+mouseup in quick succession kludge - see http://stackoverflow.com/a/8505370
 				$timeout(function() { instance.isActive = false; }, 50);
 			}

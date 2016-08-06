@@ -35,9 +35,9 @@
 							<div class="btn btn-sm hidden-xs" style="">key</div>
 							<select class="form-control input-sm" style="display: inline-block; width: 60px; position: relative; top: 2px;" ng-model="key" ng-options="k for k in keys"></select>
 						</span>
-						<button type="button" class="btn btn-default btn-sm hidden-xs" ng-click="nextOctaveOffset()"><i class="fa" ng-class="{ 'fa-square' : octaveOffset == 0, 'fa-plus-square' : octaveOffset == 1, 'fa-minus-square' : octaveOffset == -1 }"></i> octave</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="clear()"><i class="fa fa-times"></i> clear</button>
-						<button type="button" class="btn btn-default btn-sm hidden-xs" ng-click="getMidiUri()"><i class="fa fa-file"></i> midi</button>
+						<button type="button" class="btn btn-default btn-sm hidden-xs" ng-click="nextOctaveOffset()"><i class="fa fa-volume-up"></i> oct {{ octaveOffset + 1 }}</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="clear()"><i class="fa fa-trash"></i> clear</button>
+						<button type="button" class="btn btn-default btn-sm hidden-xs" ng-click="getMidiUri()"><i class="fa fa-download"></i> midi</button>
 					</div>
 				</div>
 			</div>
@@ -78,7 +78,7 @@
 			> chord {
 			
 				> div > div {
-					background: linear-gradient(rgba(80, 80, 80, .5), rgba(50, 50, 50, .5));
+					background: linear-gradient(rgba(100, 100, 100, .5), rgba(50, 50, 50, .5));
 					box-shadow: 0 4px 0px rgba(0, 0, 0, .4);
 					font-size: 1.3em;
 					
